@@ -40,9 +40,6 @@ class AudioProcessor:
         self.wav_output_dir = self.output_dir / "wav_files"
         self.txt_output_dir = self.output_dir / "txt_files"
         self._create_dirs()
-        
-        # 加载FunASR模型
-        self._load_model()
 
     def _create_dirs(self):
         """创建必要的输出目录"""
@@ -121,6 +118,10 @@ class AudioProcessor:
         return None
 
     def _transcribe_audio(self, wav_file):
+        if not hasattr(self,"model"):
+            # 加载FunASR模型
+            self._load_model()
+
         """使用FunASR转换音频为文本"""
         try:
             # 处理输出文件名冲突
